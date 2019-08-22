@@ -72,3 +72,21 @@ lr = LinearRegression().fit(X_train, y_train)
 
 lr_train_pred = lr.predict(X_train)
 lr_test_pred = lr.predict(X_test)
+
+lr_train_mse = mean_squared_error(y_train, lr_train_pred)
+lr_test_mse = mean_squared_error(y_test, lr_test_pred)
+
+print('MSE train data: {:.5}, MSE test data: {:.5}'.format(lr_train_mse, lr_test_mse))
+
+print('RMSE train data: {:.5}, RMSE test data: {:.5}'.format(
+    np.sqrt(np.absolute(lr_train_mse)),
+    np.sqrt(np.absolute(lr_train_mse))))
+
+print('R2 train data: {:.5}, R2 test data: {:.5}'.format(
+    r2_score(y_train,lr_train_pred),
+    r2_score(y_test,lr_test_pred)))
+
+
+lr_cv = cross_val_score(LinearRegression(), X, y, cv = 7)
+# accuracy +/- 2 standard deviations
+print("Accuracy: {:.2} (+/- {:.2})".format(lr_cv.mean(), lr_cv.std() * 2))
