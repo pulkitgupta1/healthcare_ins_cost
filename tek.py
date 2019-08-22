@@ -48,3 +48,27 @@ plt.show()
 
 sns.catplot(x="smoker", kind="count", hue = 'sex', data = df , palette='pastel')
 plt.show()
+
+sns.lmplot(x="age", y="charges", hue="smoker", data=df, palette=dict(yes="r", no="g"), size = 7);
+ax.set_title('Smokers and non-smokers');
+plt.show()
+
+df['age'] = df['age'].astype(float)
+df['children'] = df['children'].astype(float)
+
+df = pd.get_dummies(df)
+
+print(df.head())
+
+y = df['charges']
+X = df.drop(columns=['charges'])
+
+# use 10% of dataset as testing data
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.1, random_state=42)
+
+lr = LinearRegression().fit(X_train, y_train)
+
+lr_train_pred = lr.predict(X_train)
+lr_test_pred = lr.predict(X_test)
