@@ -117,3 +117,19 @@ print('R2 train data: {:.5}, R2 test data: {:.5}'.format(
 pr_cv = cross_val_score(LinearRegression(), X_poly, y, cv = 7)
 # accuracy +/- 2 standard deviations
 print("Accuracy: {:.2} (+/- {:.2})".format(pr_cv.mean(), pr_cv.std() * 2))
+
+rfr = RandomForestRegressor(n_estimators = 50).fit(X_train, y_train)
+#saved=pickle.dumps(rfr)
+saved=joblib.dump(rfr,'saved.pkl')
+
+rfr_train_pred = rfr.predict(X_train)
+rfr_test_pred = rfr.predict(X_test)
+
+rfr_train_mse = mean_squared_error(y_train,rfr_train_pred)
+rfr_test_mse = mean_squared_error(y_test,rfr_test_pred)
+
+print('MSE train data: {:.5}, MSE test data: {:.5}'.format(rfr_train_mse, rfr_test_mse))
+
+print('RMSE train data: {:.5}, RMSE test data: {:.5}'.format(
+    np.sqrt(np.absolute(rfr_train_mse)), 
+    np.sqrt(np.absolute(rfr_train_mse))))
