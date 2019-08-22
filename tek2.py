@@ -126,3 +126,27 @@ rfr_cv = cross_val_score(RandomForestRegressor(n_estimators = 50), X_poly, y, cv
 # accuracy +/- 2 standard deviations
 print("Accuracy: {:.2} (+/- {:.2})".format(rfr_cv.mean(), rfr_cv.std() * 2))
 
+br = BayesianRidge().fit(X_train, y_train)
+
+br_train_pred = br.predict(X_train)
+br_test_pred = br.predict(X_test)
+
+
+br_train_mse = mean_squared_error(y_train, br_train_pred)
+br_test_mse = mean_squared_error(y_test, br_test_pred)
+
+
+print('MSE train data: {:.5}, MSE test data: {:.5}'.format(br_train_mse, br_test_mse))
+
+print('RMSE train data: {:.5}, RMSE test data: {:.5}'.format(
+    np.sqrt(np.absolute(br_train_mse)), 
+    np.sqrt(np.absolute(br_train_mse))))
+                                                               
+print('R2 train data: {:.5}, R2 test data: {:.5}'.format(
+    r2_score(y_train, br_train_pred),
+    r2_score(y_test, br_test_pred)))
+
+br_cv = cross_val_score(BayesianRidge(), X_poly, y, cv = 7)
+# accuracy +/- 2 standard deviations
+print("Accuracy: {:.2} (+/- {:.2})".format(br_cv.mean(), br_cv.std() * 2))
+
