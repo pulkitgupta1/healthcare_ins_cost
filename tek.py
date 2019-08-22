@@ -25,3 +25,13 @@ print(f'{missing_values *100} %')
 st = df.apply(LabelEncoder().fit_transform)
 
 print(st.head())
+
+sns.set(color_codes=True)
+plt.figure(figsize=(14, 12))
+sns.heatmap(st.astype(float).corr(),
+            linewidths=0.2,
+            square=True,
+            linecolor='white',
+            annot=True,
+            cmap="YlGnBu")
+plt.show()
