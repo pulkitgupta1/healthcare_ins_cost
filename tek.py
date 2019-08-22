@@ -35,3 +35,16 @@ sns.heatmap(st.astype(float).corr(),
             annot=True,
             cmap="YlGnBu")
 plt.show()
+
+g = sns.FacetGrid(df, col="smoker",  size= 5, sharey=False, sharex = True)
+g.map(sns.distplot, "charges", color = 'r')
+g.set_axis_labels("charges", "proportion")
+g.despine(left=True)
+
+plt.figure(figsize=(13,6))
+plt.title("Distribution of age")
+ax = sns.distplot(df["age"], color = 'purple')
+plt.show()
+
+sns.catplot(x="smoker", kind="count", hue = 'sex', data = df , palette='pastel')
+plt.show()
